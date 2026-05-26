@@ -1,0 +1,137 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath, amssymb, mathrsfs}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,           % Active la coloration des liens au lieu des encadrés
+    linkcolor=blue,     % Couleur des liens internes (sections, index, équations)
+    citecolor=red,     % Couleur des citations bibliographiques
+    urlcolor=purple,       % Couleur des liens hypertextes (URL externes)
+    bookmarksnumbered=true,    % Inclut les numéros de section dans les signets du PDF
+    bookmarksopen=false,       % N'ouvre pas automatiquement toute l'arborescence des signets
+    pdftitle={Relecture du polycopié de cours}, % Titre dans les propriétés du document
+    pdfcreator={LaTeX}         % Logiciel créateur
+}
+
+\usepackage{pifont}  % Pour les coches et croix grasses
+
+% Le carré vide donne la taille de référence
+\newcommand{\vide}{\Large $\square$}
+
+% On place la COCHE dans une boîte de largeur nulle, puis on dessine le carré
+\newcommand{\coche}{\makebox[0pt][l]{\raisebox{.2ex}{\hspace{0.1em}\Large\textcolor{green!60!black}{\ding{52}}}}\Large $\square$}
+
+% On place la CROIX dans une boîte de largeur nulle, puis on dessine le carré
+\newcommand{\croix}{\makebox[0pt][l]{\raisebox{.2ex}{\hspace{0.1em}\Large\textcolor{red}{\ding{56}}}}\Large $\square$}
+
+% Création de l'environnement "todolist" avec un peu plus d'espace entre les lignes (itemsep)
+\newlist{todolist}{itemize}{1}
+\setlist[todolist]{label=\vide, itemsep=0.3em}
+
+
+\title{Relecture du polycopié de cours AO02}
+\author{Antoine Bensalah}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\noindent 
+\begin{itemize}
+    \item Ensemble de remarques et propositions de modifications pour le poly d'AO02. J'ai essayé d'être tatillon, quitte à ce que les propositions soient rejetées.
+    \item Quelques proposition d'exercices également
+\end{itemize}
+\textbf{Usage}
+
+\vspace{1em}
+\noindent
+\begin{minipage}[t]{0.50\textwidth}
+\textbf{\LaTeX}
+\vspace{-0.8em}
+\begin{verbatim}
+\begin{itemize}
+    \item[\vide] Modif proposée
+    \item[\coche] Modif validée
+    \item[\croix] Modif rejetée
+\end{itemize}
+\end{verbatim}
+\end{minipage}%
+%
+\hfill\vrule\hfill
+%
+\begin{minipage}[t]{0.45\textwidth}
+\textbf{Rendu}
+%\vspace{1em}
+\begin{itemize}
+    \item[\vide] Modif proposée
+    \item[\coche] Modif validée
+    \item[\croix] Modif rejetée
+\end{itemize}
+\end{minipage}
+\vspace{1em}
+
+\tableofcontents
+
+\section{Remarques et corrections proposées sur le poly}
+
+\subsection{Remarques d'ordre mathématique / pédagogique}
+
+\begin{itemize}
+    \item[\vide] \textbf{p8. Preuve de la Proposition 1.3} \\
+        A la place de $Dg(h) = \dots = \epsilon(|h_1| + |h|)$, peut être mieux de mettre $\sup_{h \in [0, h_2]} \| Dg(h) \| = \epsilon(|h_1| + |h_2|)$ pour être raccord avec l'application du TAF et pour rendre complètement juste la majoration après.
+    
+    \item[\vide] \textbf{p9. (notations)} \\
+        Perso je préfère $\mathcal L_2(E \times E ; F)$ ou $\mathcal B(E \times E ; F)$ à $\mathcal L(E \times E ; F)$ pour les applications bilinéaires pour ne pas confondre avec les applications linéaires de $E \times E$ dans $F$.
+        Idem pour ce qui suit ``une applicaton linéaire de $E^k$ dans $F$, c'est-à-dire une application $k$-linéaire'', pas trop d'accord. (ou alors écrire $E^{\otimes k}$ mais les élèves ne connaissent pas je pense).
+    
+    \item[\vide] \textbf{p27. ``normalement cv'' vs ``absolument cv''} \\
+        Au début de la p28, c'est plutôt la convergence absolue qui est montrée sur la série $\sum_k A^k / k!$
+        \begin{itemize}
+            \item en toute rigueur, on n'a pas la convergence normale sur tout $\mathbb M_n(\mathbb R)$
+            \item pour en déduire que l'exp est continue, c'est bien la convergence normale sur tout compact qui est utilisée
+        \end{itemize}
+    
+    \item[\vide] \textbf{p86. Durée de vie} \\
+        Exemple de l'équation $y' = y^2$, la solution $y(t) = y_0 / [(t - t_0) y_0 + 1]$ est fausse, plutôt :
+        $$ y(t) = \frac{y_0}{(t_0 - t) y_0 + 1} $$
+        problème de signe également pour les intervalles de solution maximale :
+        \begin{itemize}
+            \item $y_0 > 0$ : $I = ]-\infty, t_0 + 1/y_0[$
+            \item $y_0 < 0$ : $I = ]t_0 + 1/y_0, +\infty[$
+        \end{itemize}
+    
+    \item[\vide] \textbf{p142. Remarque après la Proposition 5.1} \\
+        Pas tout à fait vrai que ces deux propriétés se généralisent au cas non linéaire.
+    
+    \item[\vide] \textbf{p145. Remarque 5.3} \\
+        La première ``bullet'' donne une condition sur le déterminant ($< 0$ ou $> 0$), puisque le cas $\mathrm{det} Df(x_0) = 0$ et $\mathrm{tr} Df(x_0) > 0$ conduit également à $x_0$ pas stable, on peut enlever toute condition sur le déterminant. (par contre pour la deuxième ``bullet'', on a besoin du fait que les valeurs propres soient de même signes, quand elles sont réelles)
+\end{itemize}
+
+\subsection{Typos}
+
+\begin{itemize}
+    \item[\vide] \textbf{p2.} ``application ;cette'' $\leadsto$ espace
+    \item[\vide] \textbf{p10.} problème de notations dans le Théorème 1.4 : ``$D f^{k+1}(x)$'' $\leadsto$ $D^{k+1} f(x)$ ainsi que ``$Df^{(k)}$'' $\leadsto$ $D^{k}f$
+    \item[\vide] \textbf{p11.} même problème de notation ``$D f^{(k)}$'' et ``$D f^{(k+1)}$'' que p10 pour le Théorème 1.5
+    \item[\vide] \textbf{p14.} ``suit de Cauchy $u_n$'' $\leadsto$ ``suite de Cauchy $(u_n)$''
+    \item[\vide] \textbf{p16. Corrigé de l'exercice 1.1.} typo dans le développement de $f(x + h)$, $x^T A x$ est répété deux fois.
+    \item[\vide] \textbf{p37.} deuxième ligne en haut : ``dots'' $\rightarrow$ \verb|\dots| en LaTeX
+    \item[\vide] \textbf{??? p62.} coefficient alpha $\rightarrow$ corrigé de l'exercice 2.1 : confusion $\alpha$ et $\mu$
+    \item[\vide] \textbf{p86.} deuxième ligne : ``maxi-male''
+\end{itemize}
+
+
+\section{Proposition d'exercices supplémentaires sur le calcul différentiel}
+
+\subsection{Calcul de différentielles}
+
+\subsection{``Grands théorèmes'' : inversion locale, fonctions implicites}
+
+\end{document}
