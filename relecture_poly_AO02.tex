@@ -6,7 +6,7 @@
 \usepackage{enumitem}
 \usepackage{geometry}
 \geometry{margin=2.5cm}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,           % Active la coloration des liens au lieu des encadrés
@@ -33,6 +33,47 @@
 % Création de l'environnement "todolist" avec un peu plus d'espace entre les lignes (itemsep)
 \newlist{todolist}{itemize}{1}
 \setlist[todolist]{label=\vide, itemsep=0.3em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{tcolorbox}
+
+% Création de l'environnement "exercice"
+\newtcolorbox[auto counter]{exercice}[1][]{
+    colback=gray!5,          % Fond du texte en blanc
+    colframe=white,         % Couleur de la bordure en noir
+    colbacktitle=gray!20,     % Fond de la zone de titre en blanc
+    coltitle=black,         % Couleur du texte du titre en noir
+    fonttitle=\bfseries,    % Titre en gras
+    title=Exercice~\thetcbcounter~#1, % Numérotation
+    arc=2mm,                % Coins arrondis (mettre 0mm pour des angles droits)
+    boxrule=0.1pt,           % Épaisseur du trait de la bordure}
+    before skip=2em, % Espace vertical ajouté AVANT l'exercice
+    after skip=2em   % Espace vertical ajouté APRÈS l'exercice
+}
+
+\usepackage{enumitem}
+
+% Création du nouvel environnement "questions" avec 2 niveaux de profondeur maximum
+\newlist{questions}{enumerate}{2}
+
+% Configuration du niveau 1 : Léger décalage fixe (align=left évite que le mot "Question" ne déborde)
+\setlist[questions,1]{
+    label=\textit{\underline{Question \arabic*.}},
+    style=unboxed,      % LA SOLUTION MAGIQUE : casse la géométrie rigide
+    labelindent=31pt,    % Force le mot "Question" à rester collé à gauche dans la boîte
+    leftmargin=1em,   % <-- C'EST ICI que vous réglez le retrait de la 2e ligne !
+    labelsep=0.5em      % L'espace après le point de "Question 1."
+}
+
+% Configuration du niveau 2 : a), b) (en gras)
+\setlist[questions,2]{
+    label=\alph*), 
+    labelindent=-3pt,
+    leftmargin=*
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \title{Relecture du polycopié de cours AO02}
@@ -98,8 +139,8 @@
     \item[\vide] \textbf{p46. ``normalement cv'' vs ``absolument cv''} \\
         Comme pour le point p35., pour rester dans le cadre strict ``prépa'', je dirais que c'est plutôt la convergence absolue qui est montrée sur la série $\sum_k A^k / k!$. Pour la continuité (et le $C^\infty$), on utilise par contre la convergence normale sur tout compact.
     
-    \item[\vide] \textbf{p86. Durée de vie} \\
-        Exemple de l'équation $y' = y^2$, la solution $y(t) = y_0 / [(t - t_0) y_0 + 1]$ est fausse, plutôt :
+    \item[\vide] \textbf{p108. Durée de vie} \\
+        Exemple de l'équation $y'(t) = y^2(t)$, la solution $y(t) = y_0 / [(t - t_0) y_0 + 1]$ est fausse, plutôt :
         $$ y(t) = \frac{y_0}{(t_0 - t) y_0 + 1} $$
         problème de signe également pour les intervalles de solution maximale :
         \begin{itemize}
@@ -120,12 +161,10 @@
     \item[\vide] \textbf{p2.} ``application ;cette'' $\leadsto$ espace
     \item[\vide] \textbf{p10.} problème de notations dans le Théorème 1.4 : ``$D f^{k+1}(x)$'' $\leadsto$ $D^{k+1} f(x)$ ainsi que ``$Df^{(k)}$'' $\leadsto$ $D^{k}f$
     \item[\vide] \textbf{p11.} même problème de notation ``$D f^{(k)}$'' et ``$D f^{(k+1)}$'' que p10 pour le Théorème 1.5
-    \item[\vide] \textbf{p14.} ``suit de Cauchy $u_n$'' $\leadsto$ ``suite de Cauchy $(u_n)$''
+    \item[\vide] \textbf{p14.} ``suite de Cauchy $u_n$'' $\leadsto$ ``suite de Cauchy $(u_n)$''
     \item[\vide] \textbf{p16. Corrigé de l'exercice 1.1.} typo dans le développement de $f(x + h)$, $x^T A x$ est répété deux fois.
     \item[\vide] \textbf{p20. Exercice 1.4} Le corrigé répond à une question 3 qui n'est pas/plus dans l'exercice! \textbf{3)} Soit $v \in \mathbb R^n$, montrer que $g : A \in GL_n(\mathbb R) \mapsto \langle A^{-1}v, v\rangle \in \mathbb R$ est différentiable et calculer sa différentielle.  
-    \item[\vide] \textbf{p37.} deuxième ligne en haut : ``dots'' $\rightarrow$ \verb|\dots| en LaTeX
-    \item[\vide] \textbf{??? p62.} coefficient alpha $\rightarrow$ corrigé de l'exercice 2.1 : confusion $\alpha$ et $\mu$
-    \item[\vide] \textbf{p86.} deuxième ligne : ``maxi-male''
+    \item[\vide] \textbf{p62. Corrigé de l'exercice 2.1} coefficient alpha qui date de l'ancienne version du livre qui est devenu $\mu$ à présent. 
 \end{itemize}
 
 
@@ -133,6 +172,183 @@
 
 \subsection{Calcul de différentielles}
 
-\subsection{``Grands théorèmes'' : inversion locale, fonctions implicites}
+{
+\color{Blue} 
+
+\noindent 
+\textbf{Idées de notions / questions élémentaires à couvrir}
+\begin{itemize}
+    \item pratique la définition 
+    \begin{itemize}
+        \item différentielle des fonctions constantes 
+        \item différentielle des fonction linéaires et affines 
+    \end{itemize}
+    \item demander à quel espace appartient la différentielle dans divers cas
+    \item Dérivée le long de chemin 
+    \begin{itemize}
+        \item faire le calcul de $\frac{d}{dt} f(a + t v)$ à $t=0$, idem pour $\frac{d}{dt} f(\gamma(t))$ à $t=0$. 
+        \item interprétation géométrique de la dérivée le long d'un chemin : projection du gradient sur la direction du chemin 
+        \item des chemins qui passent au même point à la même vitesse donnent la même dérivée directionnelle  
+        \item formule plus explicite avec un chemin 2D : $\frac{d}{dt} f(x(t), y(t)) = \partial_x f(x(t), y(t)) x'(t) + \partial_y f(x(t), y(t)) y'(t)$. 
+        \item Dérivée particulaire / dérivée matérielle / dérivée convective : Dérivation d'un champ physique $f : \mathbb R \times \mathbb R^n \to \mathbb R^n$ le long d'un chemin suivi par une particule : $x(t) \in \mathbb R^n$, à vitesse $v(t) = x'(t)$ : $\frac{d}{dt} f(x(t)) = \partial_t f(t, x(t)) + v(t, x(t)) \cdot \nabla f(x(t), t)$. 
+    \end{itemize}
+    \item Fonction de plusieurs variables avec point singulier, technique du chemin 
+    \item interprétation du gradient / lignes de niveau 
+    \item Dérivation de $\int_{a(t)}^{b(t)} f(x, t) dx$ par rapport à $t$. 
+    \begin{itemize}
+        \item Démontrer que $D_x f(x, y) \cdot h = D f(x ,y) \cdot (h, 0)$ et idem pour $D_y f(x, y)$. 
+    \end{itemize}
+    \item Calcul de la différentielle de l'inversion $f(x) = x / \| x \|^2$ par deux méthodes : passer par les dérivées partielles et la matrice jacobienne, ou faire le calcul de $f(x + h)$ en passant par les développements limités et ce qui est supposé connu de $x \mapsto \| x\|^2$. 
+    \item Fonction radiale : $f(x) = g(\| x \|)$, différentielle et $\nabla f(x)$ et ligne de niveau.
+    \item Fonction angulaire : $f(x) = g(x / \| x \|)$, différentielle et $\nabla f(x)$ orthogonal à $x$. 
+    \item Vers les moindres carrés
+    \begin{itemize}
+        \item $J(P) = \sum_{j=1}^m \| P(x_j) - y_j \|^2$, où $P \in \mathbb R_n[X]$. Calcul de $DJ(P)$ et $\nabla J(P)$. 
+        \item Idem avec $J(P) = \int_a^b \| P(x) - f(x) \|^2 dx$.
+    \end{itemize}
+    \item Différentielle et gradient de $f(A x)$ où $A \in \mathbb M_{n,m}(\mathbb R)$. 
+    \item Montrer l'existence des multiplicateurs de Lagrange sur un problème simple ? 
+    \item Fonction homogène et identité d'Euler : $Df(x) \cdot x = \langle \nabla f(x), x\rangle = k f(x)$. Calcul de la divergence. 
+    \item Fonctions holomorphes 
+    \begin{itemize} 
+        \item Etudier un exemple, par exemple $f : z \mapsto 1/z$ sur $\mathbb C^*$, vu en tant que fonction de deux variables 
+        \item introduire la définition de la $\mathbb C$-dérivabilité et montrer Cauchy-Riemann
+    \end{itemize}
+\end{itemize}
+
+
+
+}
+
+\begin{exercice}[Formes quadratiques]
+    Soit $A \in \mathcal S_n(\mathbb R)$ une matrice symétrique, $b \in \mathbb R^n$ et $c \in \mathbb R$ une constante. On considère la fonction $f : \mathbb R^n \rightarrow \mathbb R$ définie par 
+    $$ 
+        \forall x \in \mathbb R^n, \quad 
+        f(x) = \frac{1}{2} x^T A x + b^T x + c. 
+    $$
+    \begin{questions}        
+        \item \mbox{}
+        \begin{questions}
+            \item Pour $x \in \mathbb R^n$, donner une expression explicite de $f(x)$ en fonction des variables $x_1, \dots, x_n$.
+            \item Justifier que $f$ est différentiable (et même de classe $C^\infty$) 
+            \item Calculer ses dérivées partielles $\frac{\partial f}{\partial x_i}$, $i=1, \dots, n$.
+            \item En déduire une expression de la différentielle $Df(x)$ et du gradient $\nabla f(x)$ en fonction de $A$, $b$ et $x$.
+        \end{questions}
+
+        \item \mbox{}
+        \begin{questions}
+            \item Pour $h \in \mathbb R^n$, calculer l'accroissement $f(x + h) - f(x)$ en fonction de $A$, $b$, $x$ et $h$.
+            \item Identifier la partie linéaire de cet accroissement et vérifier que ce qui reste est bien un $o(\| h \|)$ lorsque $h \to 0$.
+            \item Retrouver par ce biais les expressions de $Df(x)$ et $\nabla f(x)$ obtenues à la question précédente.
+        \end{questions}
+    \end{questions}
+\end{exercice}
+
+
+\begin{exercice}[Nature des objets et dérivée directionnelle]
+    On considère la fonction $f : \mathbb R^2 \to \mathbb R$ définie par $f(x,y) = x^2 y$. 
+    Soit $a = (x_0, y_0) \in \mathbb R^2$ un point fixe.
+    
+    \begin{questions}
+        \item \mbox{}
+        \begin{questions}
+            \item À quel espace appartient la différentielle $Df(a)$ ? À quel espace appartient le gradient $\nabla f(a)$ ?
+            \item Calculer le gradient $\nabla f(a)$.
+            \item Soit $v = (v_1, v_2) \in \mathbb R^2$ un vecteur. Calculer $Df(a)(v)$. À quel espace appartient cet objet ?
+        \end{questions}
+        
+        \item On définit le chemin $\gamma : \mathbb R \to \mathbb R^2$ par $\gamma(t) = (a_1 + t v_1, a_2 + t v_2)$. 
+        \begin{questions}
+            \item Que représente géométriquement l'ensemble des points $\gamma(t)$ pour $t \in \mathbb R$ ? Que vaut $\gamma(0)$ et $\gamma'(0)$ ?
+            \item On pose $g(t) = f(\gamma(t))$. En utilisant la règle de composition des différentielles, exprimer $g'(0)$ en fonction de $\nabla f(a)$ et $v$.
+            \item Retrouver ce résultat en calculant explicitement $g(t) = (a_1 + t v_1)^2 (a_2 + t v_2)$ puis en dérivant cette expression par rapport à $t$, évaluée en $t=0$.
+        \end{questions}
+    \end{questions}
+\end{exercice}
+
+\begin{exercice}[Géométrie du gradient et plans tangents]
+    Soit la fonction $f : \mathbb R^2 \to \mathbb R$ définie par $f(x,y) = x^2 + 4y^2$.
+    
+    \begin{questions}
+        \item Tracer l'allure des lignes de niveau $\mathcal{L}_1 = \{ (x,y) \in \mathbb R^2 \mid f(x,y) = 1 \}$ et $\mathcal{L}_4 = \{ (x,y) \in \mathbb R^2 \mid f(x,y) = 4 \}$. Quelle est la nature géométrique de ces courbes ?
+        \item Soit le point $A = \left(\frac{\sqrt{2}}{2}, \frac{\sqrt{2}}{4}\right)$. 
+        \begin{questions}
+            \item Vérifier que $A \in \mathcal{L}_1$.
+            \item Calculer $\nabla f(A)$ et tracer ce vecteur sur votre dessin, en plaçant son origine au point $A$. Que remarque-t-on vis-à-vis de la courbe $\mathcal{L}_1$ ?
+        \end{questions}
+        \item Donner l'équation cartésienne de la droite tangente à la courbe $\mathcal{L}_1$ au point $A$.
+    \end{questions}
+\end{exercice}
+
+
+\begin{exercice}[Propagation des ondes et équation eikonale]
+    En optique géométrique, le temps de trajet d'un rayon lumineux pour atteindre un point $(x,y)$ est modélisé par une fonction $u : \mathbb{R}^2 \to \mathbb{R}$. Dans le vide, cette fonction doit vérifier l'équation aux dérivées partielles suivante, appelée \textbf{équation eikonale} :
+    $$ \| \nabla u(x,y) \|^2 = 1 $$
+    où $\| \cdot \|$ désigne la norme euclidienne usuelle. Les lignes de niveau de $u$ représentent les \og fronts d'onde \fg.
+    
+    \begin{questions}
+        \item \textbf{Modèle 1 : L'onde plane}\\
+        On considère la fonction $u_1(x,y) = a x + b y$, où $a$ et $b$ sont deux constantes réelles.
+        \begin{questions}
+            \item Calculer le gradient $\nabla u_1(x,y)$.
+            \item À quelle condition sur $a$ et $b$ la fonction $u_1$ est-elle solution de l'équation eikonale ?
+            \item On suppose cette condition vérifiée. Quelle est la forme géométrique des fronts d'onde (les ensembles $u_1(x,y) = C$) ? Que représente le vecteur $(a,b)$ pour ces fronts d'onde ?
+        \end{questions}
+        
+        \item \textbf{Modèle 2 : L'onde circulaire}\\
+        On considère maintenant la fonction $u_2(x,y) = \sqrt{x^2 + y^2}$.
+        \begin{questions}
+            \item Justifier que $u_2$ est différentiable sur $\mathbb{R}^2 \setminus \{(0,0)\}$. Pourquoi y a-t-il un problème à l'origine ?
+            \item Pour $(x,y) \neq (0,0)$, calculer les dérivées partielles $\frac{\partial u_2}{\partial x}$ et $\frac{\partial u_2}{\partial y}$.
+            \item Montrer que pour tout $(x,y) \neq (0,0)$, on a bien $\| \nabla u_2(x,y) \|^2 = 1$.
+            \item Décrire les fronts d'onde associés à $u_2$. Si la source lumineuse est placée à l'origine, vérifier que la lumière se propage bien perpendiculairement aux fronts d'onde.
+        \end{questions}
+        
+        \item \textbf{Signification physique (Dérivée directionnelle)}\\
+        Soit $u$ une solution quelconque de l'équation eikonale. En un point $A$, on note $V = \nabla u(A)$ le vecteur gradient.
+        \begin{questions}
+            \item Quelle est la norme du vecteur $V$ ?
+            \item Calculer la dérivée directionnelle de la fonction $u$ au point $A$ dans la direction du vecteur $V$. 
+            \item \textit{Conclusion :} Que peut-on dire de la vitesse de variation du temps de trajet lorsqu'on se déplace exactement dans la direction du rayon lumineux ?
+        \end{questions}
+    \end{questions}
+\end{exercice}
+
+\subsection{``Grands théorèmes'' : accroissements finis, inversion locale, fonctions implicites}
+
+
+\begin{exercice}[Inversion locale et coordonnées polaires]
+    On considère l'application $f : \mathbb R^+ \times \mathbb R \to \mathbb R^2$ définie par :
+    $$ f(r, \theta) = (r \cos \theta, r \sin \theta) $$
+    
+    \begin{questions}
+        \item Calculer la matrice jacobienne de $f$ en un point $(r, \theta)$.
+        \item Calculer le déterminant jacobien de $f$. Pour quelles valeurs de $(r, \theta)$ ce déterminant est-il non nul ?
+        \item Énoncer le théorème d'inversion locale.
+        \item Montrer que $f$ réalise un difféomorphisme local au voisinage du point $A = (1, \frac{\pi}{2})$. 
+        \item L'application $f$ est-elle un difféomorphisme global de $]0, +\infty[ \times \mathbb R$ sur son image ? (Indication : on pourra évaluer $f(1, 0)$ et $f(1, 2\pi)$).
+    \end{questions}
+\end{exercice}
+
+
+\begin{exercice}[Théorème des fonctions implicites "à la main"]
+    On considère l'équation $x^2 + y^2 - 1 = 0$. On note $F(x,y) = x^2 + y^2 - 1$.
+    
+    \begin{questions}
+        \item \mbox{}
+        \begin{questions}
+            \item Le point $A = (0, 1)$ est-il solution de l'équation ?
+            \item Peut-on exprimer explicitement $y$ en fonction de $x$ au voisinage de $A$ ? Si oui, donner cette fonction $y = \phi(x)$ et calculer $\phi'(0)$.
+            \item Calculer $\frac{\partial F}{\partial y}(A)$. Ce résultat est-il cohérent avec le théorème des fonctions implicites ?
+        \end{questions}
+        
+        \item \mbox{}
+        \begin{questions}
+            \item Le point $B = (1, 0)$ est-il solution de l'équation ?
+            \item Si l'on trace la courbe $F(x,y) = 0$, peut-on la voir comme le graphe d'une fonction $y = \phi(x)$ au voisinage de $B$ ? Pourquoi ?
+            \item Que vaut $\frac{\partial F}{\partial y}(B)$ ? Conclure.
+        \end{questions}
+    \end{questions}
+\end{exercice}
 
 \end{document}
